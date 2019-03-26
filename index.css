@@ -1,0 +1,73 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+  }
+  body {
+    background: url('https://pixabay.com/get/e837b50a20f1073ed1534705fb094797ea7fe2d61db40c4090f5c27ca3e5bdbade/guitar-1245856_1920.jpg') no-repeat center fixed;
+    /* background-color: black; */
+    background-size: cover;
+    text-transform: uppercase;
+  }
+  .logo {
+    height: 50px;
+    width: 50px;
+    margin-top: 25px;
+  }
+  header {
+    top: 0px;
+    width: 100%;
+  }
+/* look at float */
+
+  #js-form {
+    font-size: 20px;
+    text-transform: uppercase;
+  }
+  #js-search-term {
+    background-color:black;
+    padding: 10px;
+    border-radius: 0px;
+    border: white 1px solid;
+    font-size: 20px;
+  }
+  #js-search-button {
+    background-color:black;
+    padding: 10px;
+    border-radius: 0px;
+    border: white 1px solid;
+    font-size: 20px;
+  }
+  
+  button, input[type="text"] {
+    padding: 5px;
+  }
+  
+  button:hover {
+    cursor: pointer;
+  }
+  li {
+    list-style: decimal;
+    /*look to improve numbering and margins of list*/
+  }
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .error-message {
+      color: red;
+  }
+  
+  .hidden {
+    display: none;
+  }
+
+/* media queries */
+@media (min-width: 768px) and (max-width: 1024px) {
+
+}
+
+@media (min-width: 320px) and (max-width: 568px) {
+  
+}
