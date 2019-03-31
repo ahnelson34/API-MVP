@@ -14,7 +14,6 @@
             <input type="image" class="logo"
             src="https://cdn.pixabay.com/photo/2016/09/16/19/18/microphone-1674903_640.png" alt="music-logo">
         </div>
-        <h1>Music Researcher</h1>
     </header>
 
     <div class="container">
@@ -22,13 +21,21 @@
             <label for="search-term">Search Band/Artist</label>
             <input type="text" name="search-term" id="js-search-term" placeholder="Queen" required>
 
-            <input type="submit" id="js-search-button" value="Search">
+            <input type="submit" id="js-search-button" value="Get Videos">
         </form>
 
         <p id="js-error-message" class="error-message"></p>
+        <section id="similar-artists" class="hidden">
+            <h2>Similar Artists</h2>
+            <ul id="similar-artists-list"></ul>
+        </section>
         <section id="results" class="hidden">
-          <h2>Top 10 Tracks</h2>
-          <ul id="video-list"></ul> 
+            <h2>Top Videos</h2>
+            <ul id="video-list"></ul> 
+        </section>
+        <section id="similar-artists" class="hidden">
+            <h2>Similar Artists</h2>
+            <ul id="similar-artists-list"></ul>
         </section>
         <section class="site-info">
             <h2>Welcome to Music Researcher!</h2>
