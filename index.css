@@ -4,21 +4,17 @@
     color: white;
   }
   body {
-    background: url('https://pixabay.com/get/e837b50a20f1073ed1534705fb094797ea7fe2d61db40c4090f5c27ca3e5bdbade/guitar-1245856_1920.jpg') no-repeat center fixed;
+    background: url('https://images.pexels.com/photos/702634/pexels-photo-702634.jpeg') no-repeat center fixed;
     /* background-color: black; */
     background-size: cover;
     text-transform: uppercase;
   }
   .logo {
-    height: 50px;
-    width: 50px;
+    height: 100px;
+    width: 100px;
     margin-top: 25px;
   }
-  header {
-    top: 0px;
-    width: 100%;
-  }
-/* look at float */
+
 
   #js-form {
     font-size: 20px;
