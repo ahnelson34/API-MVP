@@ -26,6 +26,35 @@ function getTopTracks(artist) {
     return fetch(url);        
 }
 
+function getSimilarArtists(artist) {
+  const params = {
+      api_key: apiKeyLastFm,
+      artist,
+      method: 'artist.getsimilar',
+      limit: 5,
+      autocorrect: 1,
+      format: 'json' 
+    }; 
+  const queryString = formatLastFmQueryParams(params)
+  const url = searchUrlLastFm + '?' + queryString;
+  
+  console.log(url);
+  
+  return fetch(url);
+
+};
+function displaySimilarArtists(responseJson) {
+  console.log(responseJson);
+  $('#similar-artists-list').empty();
+  for (let i=0; i < responseJson.similarartists.artist.name.length; i++){
+    $('#similar-artists-list').append(
+      `<li><h3>${responseJson.similarartists.artist[i].name}</h3>
+      </li>`
+    )};
+  $('#similar-artists').removeClass('hidden');  
+};
+
+
 const apiKeyYouTube = 'AIzaSyC3YDvPKPEQcKDodu7Koq5S8IhCGVbsRXA'; 
 const searchURLYouTube = 'https://www.googleapis.com/youtube/v3/search';
 
@@ -33,23 +62,8 @@ function formatYouTubeQueryParams(params) {
   const queryItems = Object.keys(params)
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
   return queryItems.join('&');
-}
-
-
-function displayResultsYouTube(responseJson) {
-  console.log(responseJson);
-  $('#video-list').empty();
-  for (let i = 0; i < responseJson.items.length; i++){
-   
-    $('#video-list').append(
-      `<li><a href='https://www.youtube.com/watch?v=${responseJson.items[i].id.videoId}' target=_blank'><h3>${responseJson.items[i].snippet.title}</h3></a>
-      <img src='${responseJson.items[i].snippet.thumbnails.default.url}'>
-      </li>`
-      
-    )};
-  //display the results section  
-  $('#results').removeClass('hidden');
 };
+
 
 function getYouTubeVideo(query) {
   const params = {
@@ -67,19 +81,6 @@ function getYouTubeVideo(query) {
   return fetch(url);
 }
 
-//show search bar on scroll up
-var prevScrollpos = window.pageYOffset;
-window.onscroll = function() {
-  var currentScrollPos = window.pageYOffset;
-  if (prevScrollpos > currentScrollPos) {
-    document.getElementById("js-form").style.top = "0";
-    //won't do anything if form is not fixed/absolute - a poistioned element
-    //translate to jquery
-  } else {
-    document.getElementById("js-form").style.top = "-50px";
-  }
-  prevScrollpos = currentScrollPos;
-}
 
 // change placeholder
 var inputPlaceholder = ["Queen", "Bob Marley", "Beyonce", "Kanye West", "Taylor Swift", "The Beatles", "Drake", "Frank Sinatra"];
@@ -90,11 +91,10 @@ setInterval(function() {
 function computeHomeButton() {
     $('.appLogo').on('click', '.logo', function(event) {
         $('#js-search-term').val(''); 
-        // how to make placeholder value reappear?
-        //explore form reset event
         $('#video-list').empty();
         $('#results').addClass('hidden');
         $('.site-info').removeClass('hidden');
+        $('#js-error-message').addClass('hidden');
     });
 }
 
@@ -103,9 +103,20 @@ function watchForm() {
     $('form').submit(event => {      
       event.preventDefault();
       $('#results').addClass('hidden');
+      $('similar-artists').addClass('hidden');
       $('.site-info').addClass('hidden');
       $('#video-list').empty();
+      $('#js-error-message').addClass('hidden');
       const searchTermLastFm = $('#js-search-term').val();
+      
+    getSimilarArtists(searchTermLastFm)
+      .then(response =>{
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error(response.statusText);
+      })
+      .then(responseJson => displaySimilarArtists(responseJson))
       
      
       
@@ -115,6 +126,7 @@ function watchForm() {
         return response.json();
         }
         throw new Error(response.statusText);
+        
         })
         .then(responseJson => {   
           var videoList = []; 
@@ -137,6 +149,7 @@ function watchForm() {
                     return response.json();
                   }
                   throw new Error(response.statusText);
+                  
                 })              
               )
           }
@@ -147,7 +160,8 @@ function watchForm() {
                 var responseJson = response[i]
                 $('#video-list').append(
                   `<li><a href='https://www.youtube.com/watch?v=${responseJson.items[0].id.videoId}' target=_blank'><h3>${responseJson.items[0].snippet.title}</h3></a>
-                  <img src='${responseJson.items[0].snippet.thumbnails.medium.url}'>
+                  <a href='https://www.youtube.com/watch?v=${responseJson.items[0].id.videoId}' target=_blank'>
+                  <img src='${responseJson.items[0].snippet.thumbnails.medium.url}'></a>
                   </li>`
                   
                 );
